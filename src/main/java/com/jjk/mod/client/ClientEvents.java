@@ -2,7 +2,6 @@ package com.jjk.mod.client;
 
 import com.jjk.mod.JJKMod;
 import com.jjk.mod.capability.CursedEnergyCapability;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -10,16 +9,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import org.lwjgl.opengl.GL11;
 
 @Mod.EventBusSubscriber(modid = JJKMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
-    private static final ResourceLocation CURSED_ENERGY_BAR = new ResourceLocation(JJKMod.MOD_ID, "textures/gui/cursed_energy_bar.png");
-    private static final ResourceLocation CURSED_ENERGY_ICON = new ResourceLocation(JJKMod.MOD_ID, "textures/item/cursed_energy_core.png");
 
     @SubscribeEvent
     public static void registerOverlays(RegisterGuiOverlaysEvent event) {
@@ -48,28 +41,27 @@ public class ClientEvents {
             int filledWidth = (int) (barWidth * percent);
 
             if (filledWidth > 0) {
-                // Gradient effect based on fill percentage
                 int color = getEnergyColor(percent);
                 fill(poseStack, x + 1, y + 1, x + filledWidth, y + barHeight - 1, color);
             }
 
             // Draw border
-            fill(poseStack, x, y, x + barWidth, y + 1, 0xFF28103D); // Top
-            fill(poseStack, x, y + barHeight - 1, x + barWidth, y + barHeight, 0xFF28103D); // Bottom
+            fill(poseStack, x, y, x + barWidth, y + 1, 0xFF28103D);
+            fill(poseStack, x, y + barHeight - 1, x + barWidth, y + barHeight, 0xFF28103D);
         });
     }
 
     private static int getEnergyColor(float percent) {
         if (percent > 0.8f) {
-            return 0xFF9A3CFF; // Bright purple
+            return 0xFF9A3CFF;
         } else if (percent > 0.6f) {
-            return 0xFF7020A8; // Medium purple
+            return 0xFF7020A8;
         } else if (percent > 0.4f) {
-            return 0xFF4A146E; // Dark purple
+            return 0xFF4A146E;
         } else if (percent > 0.2f) {
-            return 0xFF28103D; // Very dark purple
+            return 0xFF28103D;
         } else {
-            return 0xFF160B22; // Almost black
+            return 0xFF160B22;
         }
     }
 
